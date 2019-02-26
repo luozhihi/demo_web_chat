@@ -3,7 +3,7 @@
 <mapper namespace="com.demo.demo_web.dao.UserDao">
 
 	<insert id="addUser" parameterType="user">
-		INSERT INTO
+-- 		INSERT INTO
 	</insert>
 	
 </mapper>
