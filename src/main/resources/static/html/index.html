@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+</head>
+<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<body>
+<input id="text" type="text"/>
+<input type="button" value="send" onclick="send()"/>
+<input type="button" value="close" onclick="closeWebSocket()"/>
+<div id="message">
+
+</div>
+<script type="text/javascript">
+    var userID = "88"
+    var webSocket = null
+    $(function () {
+        connectWebSocket()
+    })
+    window.onunload = function () {
+        closeWebSocket()
+    }
+
+    function connectWebSocket() {
+        webSocket = new WebSocket("ws://127.0.0.1:8080/myHandler/" + userID)
+        webSocket.onopen = function (ev) {
+            //    打开连结
+        }
+        webSocket.onclose = function (ev) {
+            //    关闭连接
+        }
+        webSocket.onmessage = function (ev) {
+            //    接收消息
+            $("#message").after("</br>").after(ev.data.toLocaleString())
+        }
+    }
+
+    function send() {
+        var postValue = {}
+        postValue.id = userID
+        postValue.message = $("#text").val();
+        webSocket.send(JSON.stringify(postValue))
+    }
+
+    function closeWebSocket() {
+        if (webSocket != null) {
+            webSocket.close()
+        }
+    }
+</script>
+</body>
+</html>
