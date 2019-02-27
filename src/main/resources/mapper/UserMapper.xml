@@ -5,5 +5,7 @@
 	<insert id="addUser" parameterType="user">
 -- 		INSERT INTO
 	</insert>
-	
+	<select id="queryUserByUserName" resultType="com.demo.demo_web.entity.User" parameterType="java.lang.String">
+		SELECT * FROM user_info ui WHERE ui.username=#{username}
+	</select>
 </mapper>

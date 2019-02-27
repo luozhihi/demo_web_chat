@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>home</title>
+    <link rel="alternate icon" type="image/png" href="/AmazeUI-2.7.2/assets/i/favicon.png">
 </head>
 <script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
 <body>
@@ -13,7 +14,7 @@
 
 </div>
 <script type="text/javascript">
-    var userID = "88"
+    var userID = parseInt(10 * Math.random());
     var webSocket = null
     $(function () {
         connectWebSocket()
