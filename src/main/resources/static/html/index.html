@@ -9,7 +9,7 @@
 <script src="/js/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
 <link rel="stylesheet" href="/css/xcConfirm.css">
 <body>
-<input id="text" type="text"/>
+<input   id="text" type="text"/>
 <input type="button" value="send" onclick="send()"/>
 <input type="button" value="close" onclick="closeWebSocket()"/>
 <div id="message">
@@ -24,7 +24,11 @@
     window.onunload = function () {
         closeWebSocket()
     }
-
+    $("#text").keydown(function () {
+        if(event.keyCode == "13"){
+            send()
+        }
+    })
     function connectWebSocket(userID) {
         webSocket = new WebSocket("ws://127.0.0.1:8080/myHandler/" + userID)
         webSocket.onopen = function (ev) {
@@ -53,6 +57,7 @@
         var postValue = {}
         postValue.id = userID
         postValue.message = $("#text").val();
+        $("#text").val("")
         webSocket.send(JSON.stringify(postValue))
     }
 
