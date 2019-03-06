@@ -123,6 +123,7 @@ public class MyHandler implements WebSocketHandler {
         logger.info("连接已关闭：" + status);
         String id = getClientId(session);
         logger.info(id);
+        id = URLDecoder.decode(id,"utf-8");
         userList.remove(id);
         logger.info("[当前在线人数：" + userList.size() + "]");
         sendMessageToAllUsers(new TextMessage("["+id + "]:"+"下线了"));
