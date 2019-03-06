@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.socket.*;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -30,10 +31,11 @@ public class MyHandler implements WebSocketHandler {
         logger.info("成功建立连接");
         String[] msg = session.getUri().toString().split("/");
         String ID = msg[msg.length - 1];
+        ID = URLDecoder.decode(ID,"UTF-8");
         logger.info(ID);
         if (ID != null) {
             userList.put(ID, session);
-            session.sendMessage(new TextMessage("成功建立socket连接"));
+            sendMessageToAllUsers(new TextMessage("["+ID + "]:"+"上线了"));
             logger.info(ID);
             logger.info(session.toString());
         }
@@ -123,6 +125,7 @@ public class MyHandler implements WebSocketHandler {
         logger.info(id);
         userList.remove(id);
         logger.info("[当前在线人数：" + userList.size() + "]");
+        sendMessageToAllUsers(new TextMessage("["+id + "]:"+"下线了"));
     }
 
     @Override

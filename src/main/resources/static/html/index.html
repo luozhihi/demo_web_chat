@@ -6,6 +6,8 @@
     <link rel="alternate icon" type="image/png" href="/AmazeUI-2.7.2/assets/i/favicon.png">
 </head>
 <script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<script src="/js/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" href="/css/xcConfirm.css">
 <body>
 <input id="text" type="text"/>
 <input type="button" value="send" onclick="send()"/>
@@ -14,16 +16,16 @@
 
 </div>
 <script type="text/javascript">
-    var userID = parseInt(10 * Math.random());
+    var userID
     var webSocket = null
     $(function () {
-        connectWebSocket()
+        getUserId()
     })
     window.onunload = function () {
         closeWebSocket()
     }
 
-    function connectWebSocket() {
+    function connectWebSocket(userID) {
         webSocket = new WebSocket("ws://127.0.0.1:8080/myHandler/" + userID)
         webSocket.onopen = function (ev) {
             //    打开连结
@@ -35,6 +37,16 @@
             //    接收消息
             $("#message").after("</br>").after(ev.data.toLocaleString())
         }
+    }
+
+    function getUserId() {
+        var txt = "请输入昵称";
+        window.wxc.xcConfirm(txt, window.wxc.xcConfirm.typeEnum.input, {
+            onOk: function (v) {
+                userID = v
+                connectWebSocket(userID)
+            }
+        });
     }
 
     function send() {
