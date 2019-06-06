@@ -21,8 +21,18 @@ spring:
     testOnReturn: false
     poolPreparedStatements: true
     maxOpenPreparedStatements: 20
+  kafka:
+    producer:
+      bootstrap-servers: 111.230.47.161:9092
+      acks: -1
+      client-id: kafka-producer
+      batch-size: 5
+      retries: 0
+      buffer-memory: 40960
 server:
   port: 8080
 mybatis:
   type-aliases-package: com.demo.demo_web.entity
   mapper-locations: classpath*:mapper/*.xml
+#logging:
+#  level: info

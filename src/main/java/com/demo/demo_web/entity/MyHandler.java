@@ -3,7 +3,10 @@ package com.demo.demo_web.entity;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.socket.*;
 
 import java.io.IOException;
@@ -20,6 +23,8 @@ public class MyHandler implements WebSocketHandler {
     private static final Map<String, WebSocketSession> userList;
     private Logger logger = LoggerFactory.getLogger(MyHandler.class);
 
+    @Autowired
+    private KafkaTemplate kafkaTemplate;
     static {
         userList = new HashMap<>();
     }
@@ -49,6 +54,8 @@ public class MyHandler implements WebSocketHandler {
             JSONObject jsonobject = JSONObject.parseObject(webSocketMessage.getPayload().toString());
             logger.info(jsonobject.get("id").toString());
             logger.info(jsonobject.get("message") + ":来自" + webSocketSession.getAttributes().get("WEBSOCKET_USERID") + "的消息");
+            ListenableFuture future = kafkaTemplate.send("test", webSocketMessage);
+            future.addCallback(o-> System.out.println("消息发送成功"),throwable -> System.out.println("发送消息失败"));
             sendMessageToAllUsers(new TextMessage(jsonobject.get("id").toString() + ":" + jsonobject.get("message").toString()));
         } catch (Exception e) {
             e.printStackTrace();

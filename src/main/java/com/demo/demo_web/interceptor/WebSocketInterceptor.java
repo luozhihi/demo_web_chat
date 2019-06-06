@@ -12,6 +12,7 @@ import java.util.Map;
 public class WebSocketInterceptor implements HandshakeInterceptor {
     private Logger logger = LoggerFactory.getLogger(WebSocketInterceptor.class);
 
+
     @Override
     public boolean beforeHandshake(ServerHttpRequest serverHttpRequest, ServerHttpResponse serverHttpResponse, WebSocketHandler webSocketHandler, Map<String, Object> map) {
         if (serverHttpRequest instanceof ServerHttpRequest) {

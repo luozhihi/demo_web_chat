@@ -30,7 +30,7 @@
         }
     })
     function connectWebSocket(userID) {
-        webSocket = new WebSocket("ws://111.230.47.161:8080/myHandler/" + userID)
+        webSocket = new WebSocket("ws://localhost:8080/myHandler/" + userID)
         webSocket.onopen = function (ev) {
             //    打开连结
         }
